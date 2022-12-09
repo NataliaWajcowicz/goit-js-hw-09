@@ -17,7 +17,7 @@ function changeColor(){
 
 function startClickHandler(){
         timerId = setInterval(()=>{
-        changeColor()
+        changeColor();
     },1000)
 
 }
