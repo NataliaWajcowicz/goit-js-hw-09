@@ -6,6 +6,13 @@ const daysLeft = document.querySelector("[data-days]");
 const hoursLeft = document.querySelector("[data-hours]");
 const minutesLeft = document.querySelector("[data-minutes]");
 const secondsLeft = document.querySelector("[data-seconds]");
+const spans = document.querySelectorAll(".value");
+
+
+
+
+
+
 
 
 
@@ -24,7 +31,8 @@ const options = {
             
 
             if (timeLeft >= 0) {
-                 btn.removeAttribute("disabled");
+                btn.removeAttribute("disabled");
+                
 
 
                 const second = 1000;
@@ -32,17 +40,23 @@ const options = {
                 const hour = minute * 60;
                 const day = hour * 24;
 
+
+
          
                 const days = Math.floor(timeLeft / day);
                 const hours = Math.floor((timeLeft % day) / hour);
                 const minutes = Math.floor(((timeLeft % day) % hour) / minute);
                 const seconds = Math.floor((((timeLeft % day) % hour) % minute) / second);
 
-                daysLeft.textContent = days;
-                hoursLeft.textContent = hours;
-                minutesLeft.textContent = minutes;
-                secondsLeft.textContent = seconds;
-                return { days, hours, minutes, seconds };
+                const timerCounter = { days, hours, minutes, seconds };
+
+               
+                daysLeft.textContent= `${days}`.padStart(2,"0");
+                hoursLeft.textContent = `${hours}`.padStart(2,"0");;
+                minutesLeft.textContent = `${minutes}`.padStart(2,"0");;
+                secondsLeft.textContent = `${seconds}`.padStart(2,"0");; 
+                            
+            
                 
             } else {
                 window.alert("Please choose a date in the future");
@@ -63,6 +77,7 @@ const options = {
 };
 
 const calendar = new flatpickr("#datetime-picker", options);
+
 
 
 
