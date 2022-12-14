@@ -2,40 +2,65 @@ const delayInput = document.querySelector("[name=delay]");
 const stepInput = document.querySelector("[name=step]");
 const amountInput = document.querySelector("[name=amount]");
 const btn = document.querySelector("button");
+const form = document.querySelector(".form");
 
-const userAmount = parseInt(stepInput.textContent);
-const userDelay = parseInt(delayInput.textContent);
-const userStep = parseInt(stepInput.textContent);
+form.addEventListener("submit", promiseGenerator);
 
 function createPromise(position, delay) {
+  return new Promise((resolve, reject) => {
   setTimeout(() => {
-    for (let i = 1; i <= userAmount; i++) {
       const shouldResolve = Math.random() > 0.3;
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
           if (shouldResolve) {
-            resolve(`✅ Fulfilled promise ${position} in ${delay}ms`);
+            resolve({position, delay});
           } else {
-            reject(`❌ Rejected promise ${position} in ${delay}ms`);
+            reject({position,delay});
           }
-        }, userStep)
+        }, delay)
       })
-        .then(console.log)
-        .catch(console.error)
+       
     }
-  }, userDelay);  
+
+
+
+function promiseGenerator(event) {
+  event.preventDefault();
+  console.clear();
+
+
+  let userAmount = Number(event.currentTarget.amount.value);
+  let delay = Number(event.currentTarget.delay.value);
+  let userStep = Number(event.currentTarget.step.value);
+
+  
+
+  for (let position = 1; position <= userAmount; position+=1){
+    createPromise(position, delay)
+    .then(({ position, delay }) => {
+      console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  })
+  .catch(({ position, delay }) => {
+    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+    
+  })
+    delay += userStep;
+  }
+
+  event.currentTarget.reset();
+
+  btn.setAttribute("disabled", true);
+
+  setInterval(() => {
+    btn.removeAttribute("disabled");
+  }, 5000);
+
+  
+
+
 }
 
 
 
 
-
-btn.addEventListener("click", (event) => {
-  event.preventDefault();
-  createPromise(userAmount, userStep);
-   
-  }
-)
  
 
 
